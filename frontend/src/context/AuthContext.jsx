@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
   const tieneRol = (rol) => usuario?.rol === rol;
 
   return (
-    <AuthContext.Provider value={{ usuario, token, login, logout, tieneRol }}>
+    <AuthContext.Provider value={{ usuario, token, login, logout, cerrarSesion: logout, tieneRol }}>
       {children}
     </AuthContext.Provider>
   );
