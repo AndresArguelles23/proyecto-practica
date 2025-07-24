@@ -14,7 +14,7 @@ router.get('/', protegerRuta, async (_req, res) => {
 });
 
 // POST /api/vehicles
-router.post('/', protegerRuta, requiereRol('admin'), async (req, res) => {
+router.post('/', protegerRuta, requiereRol('administrador'), async (req, res) => {
   try {
     const nuevoVehiculo = new Vehicle(req.body);
     const vehiculoGuardado = await nuevoVehiculo.save();
@@ -25,7 +25,7 @@ router.post('/', protegerRuta, requiereRol('admin'), async (req, res) => {
 });
 
 // PUT /api/vehicles/:id
-router.put('/:id', protegerRuta, requiereRol('admin'), async (req, res) => {
+router.put('/:id', protegerRuta, requiereRol('administrador'), async (req, res) => {
   try {
     const vehiculoActualizado = await Vehicle.findByIdAndUpdate(
       req.params.id,
@@ -42,7 +42,7 @@ router.put('/:id', protegerRuta, requiereRol('admin'), async (req, res) => {
 });
 
 // DELETE /api/vehicles/:id
-router.delete('/:id', protegerRuta, requiereRol('admin'), async (req, res) => {
+router.delete('/:id', protegerRuta, requiereRol('administrador'), async (req, res) => {
   try {
     const vehiculoEliminado = await Vehicle.findByIdAndDelete(req.params.id);
     if (!vehiculoEliminado) {

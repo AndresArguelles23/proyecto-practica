@@ -9,12 +9,13 @@ const historyRoutes = require('./routes/history.routes');
 const reportRoutes = require('./routes/report.routes');
 
 const app = express();
-const vehicleRoutes = require('./routes/vehicle.routes');
-app.use('/api/vehicles', vehicleRoutes);
 
 // Middlewares básicos
 app.use(cors());
 app.use(express.json());
+
+const vehicleRoutes = require('./routes/vehicle.routes');
+app.use('/api/vehicles', vehicleRoutes);
 
 // Rutas principales
 app.use('/api/auth', authRoutes);

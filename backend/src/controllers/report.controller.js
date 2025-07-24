@@ -6,7 +6,7 @@ exports.generarReporteDiario = async (req, res) => {
   try {
     const hoy = new Date().toISOString().split('T')[0];
 
-    const formularios = await Form.find({ fecha: { $gte: new Date(hoy) } })
+    const formularios = await Form.find({ createdAt: { $gte: new Date(hoy) } })
       .populate('conductor')
       .populate('vehiculo');
 
@@ -18,7 +18,7 @@ exports.generarReporteDiario = async (req, res) => {
         });
 
         return {
-          fecha: form.fecha,
+          fecha: form.createdAt,
           conductor: form.conductor?.nombre || 'No disponible',
           vehiculo: form.vehiculo?.placa || 'No disponible',
           observaciones: form.observaciones || '',
