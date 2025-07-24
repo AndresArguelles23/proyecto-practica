@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { loginUsuario } from '../services/authService';
+import { useAuth } from '../context/AuthContext';
 import {
   TextField,
   Button,
@@ -11,15 +10,13 @@ import {
   CircularProgress,
   Box
 } from '@mui/material';
-import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const [credenciales, setCredenciales] = useState({ email: '', password: '' });
   const [error, setError] = useState(null);
   const [cargando, setCargando] = useState(false);
 
-  const { setUsuario } = useAuth();
-  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     setCredenciales({ ...credenciales, [e.target.name]: e.target.value });
@@ -31,11 +28,7 @@ const Login = () => {
     setCargando(true);
 
     try {
-      const { token, usuario } = await loginUsuario(credenciales);
-      localStorage.setItem('token', token);
-      localStorage.setItem('usuario', JSON.stringify(usuario));
-      setUsuario(usuario);
-      navigate('/dashboard');
+      await login(credenciales);
     } catch (err) {
       console.error('Error al iniciar sesión:', err.message);
       setError('Credenciales incorrectas');
