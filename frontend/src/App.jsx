@@ -1,6 +1,6 @@
 // App.jsx
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 // Importación de páginas
 import Login from './pages/Login';
@@ -25,23 +25,14 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         {/* Rutas privadas que requieren autenticación */}
-        <Route
-          path="/*"
-          element={
-            <RutaPrivada>
-              <Layout>
-                <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/formulario" element={<Formulario />} />
-                  <Route path="/vehiculos" element={<Vehiculos />} />
-                  <Route path="/usuarios" element={<Usuarios />} />
-                  {/* Redirección por defecto */}
-                  <Route path="*" element={<Navigate to="/" />} />
-                </Routes>
-              </Layout>
-            </RutaPrivada>
-          }
-        />
+        <Route element={<RutaPrivada />}>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="formulario" element={<Formulario />} />
+            <Route path="vehiculos" element={<Vehiculos />} />
+            <Route path="usuarios" element={<Usuarios />} />
+          </Route>
+        </Route>
       </Routes>
     </AuthProvider>
   );
