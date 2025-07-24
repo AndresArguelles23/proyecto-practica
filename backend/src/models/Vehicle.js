@@ -7,8 +7,16 @@ const vehicleSchema = new Schema({
     required: true,
     unique: true
   },
+  marca: {
+    type: String,
+    required: true
+  },
   modelo: {
     type: String,
+    required: true
+  },
+  anio: {
+    type: Number,
     required: true
   },
   soatVence: {
