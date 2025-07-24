@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
       setToken(data.token);
       localStorage.setItem('usuario', JSON.stringify(data.usuario));
       localStorage.setItem('token', data.token);
-      navigate('/dashboard');
+      navigate('/');
     } catch (error) {
       throw new Error(error.response?.data?.error || 'Error al iniciar sesión');
     }
