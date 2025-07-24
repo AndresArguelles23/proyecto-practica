@@ -1,14 +1,21 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../db');
-const Form      = require('./Form');
+// backend/src/models/FormItem.js
+const { Schema, model } = require('mongoose');
 
-const FormItem = sequelize.define('FormItem', {
-  descripcion:{ type: DataTypes.STRING, allowNull: false },
-  estado:     { type: DataTypes.STRING }
-});
+const formItemSchema = new Schema({
+  formulario: {
+    type: Schema.Types.ObjectId,
+    ref: 'Form',
+    required: true
+  },
+  descripcion: {
+    type: String,
+    required: true
+  },
+  estado: {
+    type: String,
+    enum: ['cumple', 'no cumple', 'no aplica'],
+    required: true
+  }
+}, { timestamps: true });
 
-// Relaciones
-FormItem.belongsTo(Form);
-Form.hasMany(FormItem, { as: 'items' });
-
-module.exports = FormItem;
+module.exports = model('FormItem', formItemSchema);

@@ -1,10 +1,28 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../db');
+// backend/src/models/Vehicle.js
+const { Schema, model } = require('mongoose');
 
-const Vehicle = sequelize.define('Vehicle', {
-  placa:    { type: DataTypes.STRING,   allowNull: false },
-  modelo:   { type: DataTypes.STRING,   allowNull: false },
-  soatVence:{ type: DataTypes.DATEONLY, allowNull: false }
-});
+const vehicleSchema = new Schema({
+  placa: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  modelo: {
+    type: String,
+    required: true
+  },
+  soatVence: {
+    type: Date,
+    required: true
+  },
+  revisionTecnomecanica: {
+    type: Date,
+    required: false
+  },
+  otrosDocumentos: [{
+    nombre: String,
+    vence: Date
+  }]
+}, { timestamps: true });
 
-module.exports = Vehicle;
+module.exports = model('Vehicle', vehicleSchema);

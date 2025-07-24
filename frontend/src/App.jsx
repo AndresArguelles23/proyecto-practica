@@ -1,27 +1,50 @@
-// frontend/src/App.jsx
+// App.jsx
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+
+// Importación de páginas
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Formulario from './pages/Formulario';
+import Vehiculos from './pages/Vehiculos';
+import Usuarios from './pages/Usuarios';
+
+// Importación del layout general
 import Layout from './components/Layout';
 
-import Dashboard from './pages/Dashboard';
-import Reportes  from './pages/Reportes';
-import Vehiculos from './pages/Vehiculos';
-import Usuarios  from './pages/Usuarios';
-import Principal from './pages/Principal';
-import Formulario from './pages/Formulario';
+// Importación del contexto de autenticación
+import { AuthProvider } from './context/AuthContext';
+import RutaPrivada from './components/RutaPrivada';
 
-export default function App() {
+function App() {
   return (
-    <Layout>
+    // Proveedor del contexto de autenticación para toda la app
+    <AuthProvider>
       <Routes>
-        <Route path="/"           element={<Navigate to="/dashboard" replace />} />
-        <Route path="/dashboard"  element={<Dashboard />} />
-        <Route path="/reportes"   element={<Reportes />} />
-        <Route path="/vehiculos"  element={<Vehiculos />} />
-        <Route path="/usuarios"   element={<Usuarios />} />
-        <Route path="/principal"  element={<Principal />} />
-        <Route path="/formulario" element={<Formulario />} />
+        {/* Ruta pública para el login */}
+        <Route path="/login" element={<Login />} />
+
+        {/* Rutas privadas que requieren autenticación */}
+        <Route
+          path="/*"
+          element={
+            <RutaPrivada>
+              <Layout>
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/formulario" element={<Formulario />} />
+                  <Route path="/vehiculos" element={<Vehiculos />} />
+                  <Route path="/usuarios" element={<Usuarios />} />
+                  {/* Redirección por defecto */}
+                  <Route path="*" element={<Navigate to="/" />} />
+                </Routes>
+              </Layout>
+            </RutaPrivada>
+          }
+        />
       </Routes>
-    </Layout>
+    </AuthProvider>
   );
 }
+
+export default App;

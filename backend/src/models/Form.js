@@ -1,14 +1,32 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../db');
-const User    = require('./User');
-const Vehicle = require('./Vehicle');
+// backend/src/models/Form.js
+const { Schema, model } = require('mongoose');
 
-const Form = sequelize.define('Form', {
-  estado: { type: DataTypes.STRING, allowNull: false }
-});
+const formSchema = new Schema({
+  conductor: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  vehiculo: {
+    type: Schema.Types.ObjectId,
+    ref: 'Vehicle',
+    required: true
+  },
+  estado: {
+    type: String,
+    enum: ['pendiente', 'completado', 'tardio'],
+    default: 'pendiente'
+  },
+  observaciones: {
+    type: String
+  },
+  firma: {
+    type: String, // Se almacenará la ruta del archivo o base64 si lo deseas
+    required: true
+  },
+  codigoJustificativo: {
+    type: String
+  }
+}, { timestamps: true });
 
-// Relaciones
-Form.belongsTo(User,    { as: 'conductor' });
-Form.belongsTo(Vehicle, { as: 'vehiculo' });
-
-module.exports = Form;
+module.exports = model('Form', formSchema);
